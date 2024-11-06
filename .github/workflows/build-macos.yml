@@ -21,7 +21,7 @@ jobs:
         go-version: '1.23.2'
 
     - name: Install git-chglog
-      run: brew install git-chglog
+      run: brew tap git-chglog/git-chglog && brew install git-chglog
 
     - name: Generate changelog
       run: git-chglog -o CHANGELOG.md
