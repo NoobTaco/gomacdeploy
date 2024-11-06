@@ -1,3 +1,40 @@
+// Package main provides a Go application that automates the installation
+// of Homebrew, various formulae, casks, and Mac App Store applications.
+// It also includes optional package installations and system cleanup tasks.
+//
+// Project: Homebrew and App Installer
+// Author: Mike Norton
+// Date: 2024-11-06
+// Description: This Go application automates the installation
+//
+//	of Homebrew, various formulae, casks, and Mac
+//	App Store applications. It also includes
+//	optional package installations and system
+//	cleanup tasks.
+//
+// The application reads a configuration file (config.yaml) to determine
+// which packages and settings to install and configure. It performs the
+// following tasks:
+// - Clears the terminal screen
+// - Prints ASCII art
+// - Prompts for the root password
+// - Keeps sudo alive
+// - Updates macOS
+// - Installs Rosetta (if needed)
+// - Installs Homebrew (if not already installed)
+// - Sets up Homebrew environment
+// - Checks and updates Homebrew
+// - Installs specified formulae
+// - Installs specified casks
+// - Installs specified Mac App Store applications
+// - Installs .NET (if desired)
+// - Configures default system settings
+// - Configures Dock settings
+// - Sets up Git login
+// - Cleans up Homebrew installations
+// - Reboots the system
+//
+// This project was inspired by https://github.com/donnybrilliant/install.sh
 package main
 
 import (
@@ -12,23 +49,10 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// ============================================================
-//  Project: Homebrew and App Installer
-//  Author: Mike Norton
-//  Date: 2024-11-06
-//  Description: This Go application automates the installation
-//               of Homebrew, various formulae, casks, and Mac
-//               App Store applications. It also includes
-//               optional package installations and system
-//               cleanup tasks.
-// ============================================================
-
 // TODO: Add more error handling
 // TODO: Add more comments
-// TODO: Break up into separate modules
 // TODO: Find a better name
-// TODO: Setup Git Login information
-// TODO: Add setup of dotfiles from github
+// TODO: Add setup of dotfiles from github NEEDS work
 
 type Config struct {
 	Casks           []string `yaml:"casks"`
@@ -38,7 +62,6 @@ type Config struct {
 	DockReplace     []string `yaml:"dockReplace"`
 	DockAdd         []string `yaml:"dockAdd"`
 	DockRemove      []string `yaml:"dockRemove"`
-	DotfilesRepo    string   `yaml:"dotfilesRepo"`
 }
 
 func main() {
@@ -64,7 +87,6 @@ func main() {
 	configureDefaultSettings(config.DefaultSettings)
 	configureDockSettings(config.DockReplace, config.DockAdd, config.DockRemove)
 	setupGitLogin()
-	// setupDotfiles(config.DotfilesRepo) // DO NOT USE THIS FUNCTION
 	cleanup()
 	finishAndReboot()
 
@@ -495,50 +517,6 @@ func setupGitLogin() {
 	}
 
 	fmt.Println("Git is Setup")
-}
-
-func setupDotfiles(repo string) {
-	clearScreen()
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Would you like to install the dotfiles from GitHub? [y/N]: ")
-	reply, _ := reader.ReadString('\n')
-	reply = strings.TrimSpace(reply)
-	if strings.ToLower(reply) != "y" {
-		fmt.Println("Skipping dotfiles setup.")
-		return
-	}
-
-	if _, err := os.Stat("dotfiles"); os.IsNotExist(err) {
-		fmt.Println("Cloning dotfiles repository...")
-		cmd := exec.Command("git", "clone", repo, "~/dotfiles")
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
-		if err != nil {
-			fmt.Printf("Failed to clone dotfiles repository: %v\n", err)
-			return
-		}
-	} else {
-		fmt.Println("Updating dotfiles repository...")
-		cmd := exec.Command("git", "-C", "dotfiles", "pull")
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
-		if err != nil {
-			fmt.Printf("Failed to update dotfiles repository: %v\n", err)
-			return
-		}
-	}
-
-	fmt.Println("Running stow...")
-	cmd := exec.Command("stow", "-d", "dotfiles", ".")
-	cmd.Dir = "dotfiles"
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	if err != nil {
-		fmt.Printf("Failed to run stow: %v\n", err)
-	}
 }
 
 func finishAndReboot() {
