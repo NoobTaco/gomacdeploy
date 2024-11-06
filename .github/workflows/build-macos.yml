@@ -37,46 +37,26 @@ jobs:
       - name: Copy config.yaml
         run: cp config.yaml ./gomacdeploy
 
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.CHANGELOG_GENERATOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Changelog:
-            ${{ steps.generate_changelog.outputs.changelog }}
+            Changes in this Release
+            - First Change
+            - Second Change
           draft: false
           prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGELOG_GENERATOR }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./gomacdeploy
-          asset_name: gomacdeploy
-          asset_content_type: application/octet-stream
-
-      - name: Upload Config File
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGELOG_GENERATOR }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./config.yaml
-          asset_name: config.yaml
-          asset_content_type: text/yaml
-
-      - name: Upload Changelog
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGELOG_GENERATOR }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./CHANGELOG.md
-          asset_name: CHANGELOG.md
-          asset_content_type: text/markdown
