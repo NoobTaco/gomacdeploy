@@ -34,6 +34,8 @@
 // - Cleans up Homebrew installations
 // - Reboots the system
 //
+// Version: v0.1.0
+//
 // This project was inspired by https://github.com/donnybrilliant/install.sh
 //
 // This project uses the MIT license. See the LICENSE file for details.
