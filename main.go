@@ -52,7 +52,6 @@ import (
 // TODO: Add more error handling
 // TODO: Add more comments
 // TODO: Find a better name
-// TODO: Add setup of dotfiles from github NEEDS work
 
 type Config struct {
 	Casks           []string `yaml:"casks"`
@@ -530,15 +529,20 @@ func finishAndReboot() {
 
 	fmt.Println()
 	fmt.Println()
-	fmt.Print("Press ANY KEY to REBOOT")
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
-
-	cmd := exec.Command("sudo", "reboot")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Run()
-	if err != nil {
-		fmt.Printf("Error rebooting: %v\n", err)
+	fmt.Print("Would you like to reboot now? [y/N]: ")
+	reader := bufio.NewReader(os.Stdin)
+	reply, _ := reader.ReadString('\n')
+	reply = strings.TrimSpace(reply)
+	if strings.ToLower(reply) == "y" {
+		cmd := exec.Command("sudo", "reboot")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		err := cmd.Run()
+		if err != nil {
+			fmt.Printf("Error rebooting: %v\n", err)
+		}
+		os.Exit(0)
+	} else {
+		fmt.Println("Reboot canceled.")
 	}
-	os.Exit(0)
 }
