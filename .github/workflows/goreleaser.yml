@@ -20,15 +20,12 @@ jobs:
           fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@v5
-      # - name: Install Ruby
-      #   run: brew install ruby
-      - name: Install github-changelog-generator
-        run: gem install github_changelog_generator
-      - name: Generate changelog
-        env:
-          CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
-        run: github_changelog_generator -u NoobTaco -p gomacdeploy
-
+        with:
+          go-version: 1.23.2
+      - name: '✏️ Generate release changelog'
+        uses: janheinrichmerker/action-github-changelog-generator@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
