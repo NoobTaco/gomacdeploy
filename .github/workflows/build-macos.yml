@@ -12,31 +12,36 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.23.2'
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23.2'
 
-    - name: Install git-chglog
-      run: brew tap git-chglog/git-chglog && brew install git-chglog
+      - name: Install Ruby
+        run: brew install ruby
 
-    - name: Generate changelog
-      run: git-chglog -o CHANGELOG.md
+      - name: Install github-changelog-generator
+        run: gem install github_changelog_generator
 
-    - name: Build
-      run: go build -o gomacdeploy -v ./...
+      - name: Generate changelog
+        env:
+          CHANGELOG_GITHUB_TOKEN: ${{ secrets.CHANGELOG_GENERATOR }}
+        run: github_changelog_generator -u NoobTaco -p gomacdeploy
 
-    - name: Copy config.yaml
-      run: cp config.yaml ./gomacdeploy
+      - name: Build
+        run: go build -o gomacdeploy -v ./...
 
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: |
-          ./gomacdeploy
-          ./config.yaml
-          ./CHANGELOG.md
+      - name: Copy config.yaml
+        run: cp config.yaml ./gomacdeploy
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            ./gomacdeploy
+            ./config.yaml
+            ./CHANGELOG.md
