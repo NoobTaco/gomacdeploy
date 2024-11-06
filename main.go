@@ -38,6 +38,7 @@ type Config struct {
 	DockReplace     []string `yaml:"dockReplace"`
 	DockAdd         []string `yaml:"dockAdd"`
 	DockRemove      []string `yaml:"dockRemove"`
+	DotfilesRepo    string   `yaml:"dotfilesRepo"`
 }
 
 func main() {
@@ -48,22 +49,24 @@ func main() {
 	}
 
 	clearScreen()
-	// printASCIIArt()
-	// promptForRootPassword()
-	// keepSudoAlive()
-	// updateMacOS()
-	// installRosetta()
-	// installHomebrew()
-	// setupHomebrew()
-	// checkAndUpdateHomebrew()
-	// installFormulae(config.Formulae)
-	// installCasks(config.Casks)
-	// installAppStoreApps(config.AppStore)
-	// installDotNet()
-	// configureDefaultSettings(config.DefaultSettings)
+	printASCIIArt()
+	promptForRootPassword()
+	keepSudoAlive()
+	updateMacOS()
+	installRosetta()
+	installHomebrew()
+	setupHomebrew()
+	checkAndUpdateHomebrew()
+	installFormulae(config.Formulae)
+	installCasks(config.Casks)
+	installAppStoreApps(config.AppStore)
+	installDotNet()
+	configureDefaultSettings(config.DefaultSettings)
 	configureDockSettings(config.DockReplace, config.DockAdd, config.DockRemove)
 	setupGitLogin()
+	// setupDotfiles(config.DotfilesRepo) // DO NOT USE THIS FUNCTION
 	cleanup()
+	finishAndReboot()
 
 }
 
@@ -483,4 +486,72 @@ func setupGitLogin() {
 	}
 
 	fmt.Println("Git is Setup")
+}
+
+func setupDotfiles(repo string) {
+	clearScreen()
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Would you like to install the dotfiles from GitHub? [y/N]: ")
+	reply, _ := reader.ReadString('\n')
+	reply = strings.TrimSpace(reply)
+	if strings.ToLower(reply) != "y" {
+		fmt.Println("Skipping dotfiles setup.")
+		return
+	}
+
+	if _, err := os.Stat("dotfiles"); os.IsNotExist(err) {
+		fmt.Println("Cloning dotfiles repository...")
+		cmd := exec.Command("git", "clone", repo, "~/dotfiles")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		err := cmd.Run()
+		if err != nil {
+			fmt.Printf("Failed to clone dotfiles repository: %v\n", err)
+			return
+		}
+	} else {
+		fmt.Println("Updating dotfiles repository...")
+		cmd := exec.Command("git", "-C", "dotfiles", "pull")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		err := cmd.Run()
+		if err != nil {
+			fmt.Printf("Failed to update dotfiles repository: %v\n", err)
+			return
+		}
+	}
+
+	fmt.Println("Running stow...")
+	cmd := exec.Command("stow", "-d", "dotfiles", ".")
+	cmd.Dir = "dotfiles"
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	if err != nil {
+		fmt.Printf("Failed to run stow: %v\n", err)
+	}
+}
+
+func finishAndReboot() {
+	clearScreen()
+	fmt.Println("______ _____ _   _  _____ ")
+	fmt.Println("|  _  \\  _  | \\ | ||  ___|")
+	fmt.Println("| | | | | | |  \\| || |__  ")
+	fmt.Println("| | | | | | | .   ||  __| ")
+	fmt.Println("| |/ /\\ \\_/ / |\\  || |___ ")
+	fmt.Println("|___/  \\___/\\_| \\_/\\____/ ")
+
+	fmt.Println()
+	fmt.Println()
+	fmt.Print("Press ANY KEY to REBOOT")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+
+	cmd := exec.Command("sudo", "reboot")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+	if err != nil {
+		fmt.Printf("Error rebooting: %v\n", err)
+	}
+	os.Exit(0)
 }

@@ -101,3 +101,5 @@ dockAdd:
 
 dockRemove:
   - FaceTime
+
+dotfilesRepo: 'https://github.com/NoobTaco/dotfiles'
