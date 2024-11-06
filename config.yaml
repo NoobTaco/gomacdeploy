@@ -1,0 +1,118 @@
+#################
+# CONFIGURATION #
+#################
+
+# Homebrew Casks: Applications installed via Homebrew Cask.
+# These are GUI applications available through Homebrew.
+casks:
+  - affinity-designer
+  - affinity-photo
+  - affinity-publisher
+  - appcleaner
+  - arc
+  - chatgpt
+  - bitwarden
+  - cheatsheet
+  - devtoys
+  - discord
+  - docker
+  - epic-games
+  - figma
+  - github
+  - google-chrome
+  - iina
+  - imageoptim
+  - iterm2
+  - jordanbaird-ice
+  - karabiner-elements
+  - localsend
+  - logi-options+
+  - microsoft-onenote
+  - obs
+  - ollama
+  - onedrive
+  - postman
+  - private-internet-access
+  - raycast
+  - scroll-reverser
+  - silicon-info
+  - stats
+  - steam
+  - the-unarchiver
+  - transmission
+  - visual-studio-code
+  - wezterm
+
+# Homebrew Formulae: Command line tools installed via Homebrew.
+formulae:
+  - goenv
+  - pyenv
+  - pyenv-virtualenv
+  - bat
+  - curl
+  - eza
+  - neovim
+  - starship
+  - stow
+  - tmux
+  - tpm
+  - vim
+  - tree
+  - wget
+  - git
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+
+# App Store Apps: List of App Store app IDs to install via `mas` (Mac App Store CLI).
+# Each number corresponds to an application's ID in the App Store.
+appStore:
+  # - 409201541  # Pages
+  # - 409203825  # Numbers
+  # - 1278508951 # Trello
+
+optionalPackages:
+  - dotnet
+
+# SYSTEM SETTINGS: Commands to configure macOS system preferences and behaviors.
+settings:
+  - defaults write -g com.apple.mouse.scaling 3
+  - defaults write -g com.apple.trackpad.scaling 3
+  - defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonMode TwoButton
+  - defaults write com.apple.AppleMultitouchMouse.plist MouseButtonMode TwoButton
+  - defaults write -g AppleShowAllExtensions -bool true
+  - defaults write com.apple.finder AppleShowAllFiles true
+  - defaults write com.apple.finder ShowPathbar -bool true
+  - defaults write com.apple.finder ShowStatusBar -bool true
+  - defaults write com.apple.finder NewWindowTarget PfHm
+  - defaults write com.apple.Finder FXPreferredViewStyle Nlsv
+  - defaults write com.apple.finder _FXSortFoldersFirst -bool true
+  - defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+  - defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+  - defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+  - defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  - chflags nohidden ~/Library
+
+# DOCK SETTINGS: Configuration for adding, removing, and replacing Dock items.
+dockReplace:
+  # Format: "replacement_app_path|app_name_to_replace"
+  - /Applications/Google Chrome.app|Safari
+
+dockAdd:
+  - /Applications/iTerm.app
+  - /Applications/Visual Studio Code.app
+  - /Applications/GitHub Desktop.app
+  - /Applications/Discord.app
+  - /Applications/Microsoft Teams (work or school).app
+
+dockRemove:
+  # - Meldinger
+  # - Kart
+  # - Bilder
+  # - Påminnelser
+  # - FaceTime
+  # - Kontakter
+  # - TV
+  # - Musikk
+
+# HOMEBREW AUTOUPDATE: Configures the frequency of Homebrew package updates in milliseconds.
+homebrewUpdateFrequency: 86400 # 24 hours in milliseconds
