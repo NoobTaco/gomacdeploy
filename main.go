@@ -27,8 +27,8 @@ import (
 // TODO: Add more comments
 // TODO: Break up into separate modules
 // TODO: Find a better name
-// TODO: Add dock module
 // TODO: Setup Git Login information
+// TODO: Add setup of dotfiles from github
 
 type Config struct {
 	Casks           []string `yaml:"casks"`
@@ -47,7 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// clearScreen()
+	clearScreen()
 	// printASCIIArt()
 	// promptForRootPassword()
 	// keepSudoAlive()
@@ -60,9 +60,10 @@ func main() {
 	// installCasks(config.Casks)
 	// installAppStoreApps(config.AppStore)
 	// installDotNet()
-	// cleanup()
 	// configureDefaultSettings(config.DefaultSettings)
 	configureDockSettings(config.DockReplace, config.DockAdd, config.DockRemove)
+	setupGitLogin()
+	cleanup()
 
 }
 
@@ -411,4 +412,75 @@ func cleanup() {
 		return
 	}
 
+}
+
+func setupGitLogin() {
+	clearScreen()
+	reader := bufio.NewReader(os.Stdin)
+
+	// Check if Git username is already set
+	cmd := exec.Command("git", "config", "--global", "user.name")
+	existingName, err := cmd.Output()
+	if err == nil && len(existingName) > 0 {
+		fmt.Printf("Existing Git username: %s\n", strings.TrimSpace(string(existingName)))
+		fmt.Print("Do you want to overwrite it? [y/N]: ")
+		reply, _ := reader.ReadString('\n')
+		reply = strings.TrimSpace(reply)
+		if strings.ToLower(reply) != "y" {
+			fmt.Println("Keeping existing Git username.")
+			return
+		}
+	}
+
+	// Check if Git email is already set
+	cmd = exec.Command("git", "config", "--global", "user.email")
+	existingEmail, err := cmd.Output()
+	if err == nil && len(existingEmail) > 0 {
+		fmt.Printf("Existing Git email: %s\n", strings.TrimSpace(string(existingEmail)))
+		fmt.Print("Do you want to overwrite it? [y/N]: ")
+		reply, _ := reader.ReadString('\n')
+		reply = strings.TrimSpace(reply)
+		if strings.ToLower(reply) != "y" {
+			fmt.Println("Keeping existing Git email.")
+			return
+		}
+	}
+
+	fmt.Println("SET UP GIT")
+	fmt.Print("Please enter your git username: ")
+	name, _ := reader.ReadString('\n')
+	name = strings.TrimSpace(name)
+
+	fmt.Print("Please enter your git email: ")
+	email, _ := reader.ReadString('\n')
+	email = strings.TrimSpace(email)
+
+	cmd = exec.Command("git", "config", "--global", "user.name", name)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err = cmd.Run()
+	if err != nil {
+		fmt.Printf("Failed to set git username: %v\n", err)
+		return
+	}
+
+	cmd = exec.Command("git", "config", "--global", "user.email", email)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err = cmd.Run()
+	if err != nil {
+		fmt.Printf("Failed to set git email: %v\n", err)
+		return
+	}
+
+	cmd = exec.Command("git", "config", "--global", "color.ui", "true")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err = cmd.Run()
+	if err != nil {
+		fmt.Printf("Failed to set git color.ui: %v\n", err)
+		return
+	}
+
+	fmt.Println("Git is Setup")
 }

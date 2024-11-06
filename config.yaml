@@ -61,6 +61,7 @@ formulae:
   - tree
   - wget
   - git
+  - yazi
   - zsh-autosuggestions
   - zsh-syntax-highlighting
 
