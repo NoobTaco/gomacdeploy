@@ -35,6 +35,9 @@ type Config struct {
 	Formulae        []string `yaml:"formulae"`
 	AppStore        []string `yaml:"appStore"`
 	DefaultSettings []string `yaml:"defaultSettings"`
+	DockReplace     []string `yaml:"dockReplace"`
+	DockAdd         []string `yaml:"dockAdd"`
+	DockRemove      []string `yaml:"dockRemove"`
 }
 
 func main() {
@@ -44,21 +47,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	clearScreen()
-	printASCIIArt()
-	promptForRootPassword()
-	keepSudoAlive()
-	updateMacOS()
-	installRosetta()
-	installHomebrew()
-	setupHomebrew()
-	checkAndUpdateHomebrew()
-	installFormulae(config.Formulae)
-	installCasks(config.Casks)
-	installAppStoreApps(config.AppStore)
-	installDotNet()
-	cleanup()
-	configureDefaultSettings(config.DefaultSettings)
+	// clearScreen()
+	// printASCIIArt()
+	// promptForRootPassword()
+	// keepSudoAlive()
+	// updateMacOS()
+	// installRosetta()
+	// installHomebrew()
+	// setupHomebrew()
+	// checkAndUpdateHomebrew()
+	// installFormulae(config.Formulae)
+	// installCasks(config.Casks)
+	// installAppStoreApps(config.AppStore)
+	// installDotNet()
+	// cleanup()
+	// configureDefaultSettings(config.DefaultSettings)
+	configureDockSettings(config.DockReplace, config.DockAdd, config.DockRemove)
 
 }
 

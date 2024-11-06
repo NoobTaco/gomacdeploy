@@ -82,25 +82,20 @@ defaultSettings:
   - defaults write com.apple.finder _FXSortFoldersFirst -bool true
   - defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
   - defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+  - defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+  - defaults write com.apple.WindowManager EnableTopTilingByEdgeDrag -bool false
 
 # DOCK SETTINGS: Configuration for adding, removing, and replacing Dock items.
 dockReplace:
   # Format: "replacement_app_path|app_name_to_replace"
-  - /Applications/Google Chrome.app|Safari
+  # - /Applications/Google Chrome.app|Safari
 
 dockAdd:
-  - /Applications/iTerm.app
+  - /Applications/WezTerm.app
+  - /Applications/Arc.app
   - /Applications/Visual Studio Code.app
   - /Applications/GitHub Desktop.app
   - /Applications/Discord.app
-  - /Applications/Microsoft Teams (work or school).app
 
 dockRemove:
-  # - Meldinger
-  # - Kart
-  # - Bilder
-  # - Påminnelser
-  # - FaceTime
-  # - Kontakter
-  # - TV
-  # - Musikk
+  - FaceTime
