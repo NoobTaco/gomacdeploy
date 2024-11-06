@@ -51,7 +51,6 @@ import (
 
 // TODO: Add more error handling
 // TODO: Add more comments
-// TODO: Find a better name
 
 type Config struct {
 	Casks           []string `yaml:"casks"`
