@@ -35,13 +35,14 @@ type Config struct {
 	Casks    []string `yaml:"casks"`
 	Formulae []string `yaml:"formulae"`
 	AppStore []string `yaml:"appStore"`
+	DefaultSettings []string `yaml:"defaultSettings"`
 }
 
-const (
-    RED   = "\033[0;31m"
-    GREEN = "\033[0;32m"
-    NC    = "\033[0m" // No Color
-)
+// const (
+//     RED   = "\033[0;31m"
+//     GREEN = "\033[0;32m"
+//     NC    = "\033[0m" // No Color
+// )
 
 func main() {
 	config, err := readConfig("config.yaml")
@@ -50,20 +51,21 @@ func main() {
 			os.Exit(1)
 	}
 
-    clearScreen()
-    printASCIIArt()
-    promptForRootPassword()
-    keepSudoAlive()
-    updateMacOS()
-		installRosetta()
-		installHomebrew()
-		setupHomebrew()
-		checkAndUpdateHomebrew()
-		installFormulae(config.Formulae)
-		installCasks(config.Casks)
-		installAppStoreApps(config.AppStore)
-		installDotNet()
-		cleanup()
+    // clearScreen()
+    // printASCIIArt()
+    // promptForRootPassword()
+    // keepSudoAlive()
+    // updateMacOS()
+		// installRosetta()
+		// installHomebrew()
+		// setupHomebrew()
+		// checkAndUpdateHomebrew()
+		// installFormulae(config.Formulae)
+		// installCasks(config.Casks)
+		// installAppStoreApps(config.AppStore)
+		// installDotNet()
+		// cleanup()
+		configureDefaultSettings(config.DefaultSettings)
 
 }
 
