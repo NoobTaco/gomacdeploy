@@ -12,6 +12,25 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// ============================================================
+//  Project: Homebrew and App Installer
+//  Author: Mike Norton
+//  Date: 2024-11-06
+//  Description: This Go application automates the installation
+//               of Homebrew, various formulae, casks, and Mac
+//               App Store applications. It also includes
+//               optional package installations and system
+//               cleanup tasks.
+// ============================================================
+
+// TODO: Add more error handling
+// TODO: Add more comments
+// TODO: Break up into separate modules
+// TODO: Find a better name
+// TODO: Add Settings module
+// TODO: Add dock module
+// TODO: Setup Git Login information
+
 type Config struct {
 	Casks    []string `yaml:"casks"`
 	Formulae []string `yaml:"formulae"`
