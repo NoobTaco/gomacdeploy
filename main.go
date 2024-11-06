@@ -101,6 +101,7 @@ func promptForRootPassword() {
 	}
 }
 
+// TODO Fix sudo keep alive
 func keepSudoAlive() {
 	go func() {
 		for {
