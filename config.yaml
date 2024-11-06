@@ -53,6 +53,7 @@ formulae:
   - curl
   - eza
   - neovim
+  - neofetch
   - starship
   - stow
   - tmux
