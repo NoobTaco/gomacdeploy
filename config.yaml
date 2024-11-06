@@ -11,8 +11,8 @@ casks:
   - appcleaner
   - arc
   - battle-net
-  - chatgpt
   - bitwarden
+  - chatgpt
   - cheatsheet
   - devtoys
   - discord
@@ -46,22 +46,22 @@ casks:
 
 # Homebrew Formulae: Command line tools installed via Homebrew.
 formulae:
-  - goenv
-  - pyenv
-  - pyenv-virtualenv
   - bat
   - curl
   - eza
-  - neovim
+  - git
+  - goenv
   - neofetch
+  - neovim
+  - pyenv
+  - pyenv-virtualenv
   - starship
   - stow
   - tmux
   - tpm
-  - vim
   - tree
+  - vim
   - wget
-  - git
   - yazi
   - zsh-autosuggestions
   - zsh-syntax-highlighting
@@ -101,5 +101,3 @@ dockAdd:
 
 dockRemove:
   - FaceTime
-
-dotfilesRepo: 'https://github.com/NoobTaco/dotfiles'
