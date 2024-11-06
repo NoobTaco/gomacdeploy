@@ -2,7 +2,7 @@
 // of Homebrew, various formulae, casks, and Mac App Store applications.
 // It also includes optional package installations and system cleanup tasks.
 //
-// Project: Homebrew and App Installer
+// Project: Go Mac Deploy (gomacdeploy)
 // Author: Mike Norton
 // Date: 2024-11-06
 // Description: This Go application automates the installation
