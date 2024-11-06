@@ -35,6 +35,8 @@
 // - Reboots the system
 //
 // This project was inspired by https://github.com/donnybrilliant/install.sh
+//
+// This project uses the MIT license. See the LICENSE file for details.
 package main
 
 import (
