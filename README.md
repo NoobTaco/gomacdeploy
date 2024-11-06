@@ -1,4 +1,4 @@
-# Homebrew and App Installer
+# Go Mac Deploy
 
 This Go application automates the installation of Homebrew, various formulae, casks, and Mac App Store applications. It also includes optional package installations and system cleanup tasks.
 
