@@ -138,6 +138,7 @@ func keepSudoAlive() {
 }
 
 func updateMacOS() {
+	clearScreen()
 	fmt.Println("Updating macOS...")
 	cmd := exec.Command("sudo", "softwareupdate", "-i", "-a")
 	cmd.Stdout = os.Stdout
@@ -169,6 +170,7 @@ func installRosetta() {
 }
 
 func installHomebrew() {
+	clearScreen()
 	fmt.Println("Checking if Homebrew is installed...")
 	cmd := exec.Command("brew", "--version")
 	err := cmd.Run()
@@ -188,6 +190,7 @@ func installHomebrew() {
 }
 
 func setupHomebrew() {
+	clearScreen()
 	zprofilePath := os.Getenv("HOME") + "/.zprofile"
 	homebrewInit := `eval "$(/opt/homebrew/bin/brew shellenv)"`
 
@@ -241,6 +244,7 @@ func setupHomebrew() {
 }
 
 func checkAndUpdateHomebrew() {
+	clearScreen()
 	fmt.Println("Checking Homebrew installation and updating...")
 
 	cmd := exec.Command("brew", "update")
@@ -267,6 +271,7 @@ func checkAndUpdateHomebrew() {
 
 // Install Formulae
 func installFormulae(formulae []string) {
+	clearScreen()
 	fmt.Println("Installing formulae...")
 	for _, formula := range formulae {
 		cmd := exec.Command("brew", "install", formula)
@@ -281,6 +286,7 @@ func installFormulae(formulae []string) {
 
 // Install Casks
 func installCasks(casks []string) {
+	clearScreen()
 	fmt.Println("Installing casks...")
 	for _, cask := range casks {
 		cmd := exec.Command("brew", "install", "--cask", cask)
@@ -295,6 +301,7 @@ func installCasks(casks []string) {
 
 // Install App Store Apps
 func installAppStoreApps(apps []string) {
+	clearScreen()
 	fmt.Println("Checking if mas is installed...")
 	cmd := exec.Command("mas", "--version")
 	err := cmd.Run()
@@ -326,6 +333,7 @@ func installAppStoreApps(apps []string) {
 
 // Install .NET
 func installDotNet() {
+	clearScreen()
 	fmt.Println("Checking if .NET is installed...")
 	cmd := exec.Command("dotnet", "--version")
 	err := cmd.Run()
@@ -378,6 +386,7 @@ func installDotNet() {
 
 // Cleanup
 func cleanup() {
+	clearScreen()
 	fmt.Println("Cleaning up...")
 	cmd := exec.Command("brew", "update")
 	cmd.Stdout = os.Stdout

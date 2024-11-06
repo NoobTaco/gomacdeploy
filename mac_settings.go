@@ -9,6 +9,7 @@ import (
 )
 
 func configureDefaultSettings(settings []string) {
+	clearScreen()
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Configure default system settings? [Y/n]: ")
 	reply, _ := reader.ReadString('\n')
@@ -30,6 +31,7 @@ func configureDefaultSettings(settings []string) {
 }
 
 func configureDockSettings(replaceItems, addItems, removeItems []string) {
+	clearScreen()
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Apply Dock settings? [y/N]: ")
 	reply, _ := reader.ReadString('\n')
