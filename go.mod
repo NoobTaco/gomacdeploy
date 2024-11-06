@@ -1,4 +1,4 @@
-module macinstall
+module gomacdeploy
 
 go 1.23.2
 
