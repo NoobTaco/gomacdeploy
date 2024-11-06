@@ -1,0 +1,42 @@
+name: Build macOS
+
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.23.2'
+
+    - name: Install git-chglog
+      run: brew install git-chglog
+
+    - name: Generate changelog
+      run: git-chglog -o CHANGELOG.md
+
+    - name: Build
+      run: go build -o gomacdeploy -v ./...
+
+    - name: Copy config.yaml
+      run: cp config.yaml ./gomacdeploy
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: |
+          ./gomacdeploy
+          ./config.yaml
+          ./CHANGELOG.md
