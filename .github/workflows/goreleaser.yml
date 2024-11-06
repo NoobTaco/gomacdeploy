@@ -20,8 +20,8 @@ jobs:
           fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@v5
-      - name: Install Ruby
-        run: brew install ruby
+      # - name: Install Ruby
+      #   run: brew install ruby
       - name: Install github-changelog-generator
         run: gem install github_changelog_generator
       - name: Generate changelog
