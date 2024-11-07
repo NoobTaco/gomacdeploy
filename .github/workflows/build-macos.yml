@@ -97,6 +97,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21.1'
+
+      - name: Install Ruby
+        run: brew install ruby
+
+      - name: Install github-changelog-generator
+        run: gem install github_changelog_generator
+
+      - name: Generate changelog
+        env:
+          CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: github_changelog_generator -u NoobTaco -p gomacdeploy
+
+      - name: Build
+        run: go build -o gomacdeploy -v ./...
+
+      - name: Copy deploy_config.yml
+        run: cp deploy_config.yml ./gomacdeploy
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -106,8 +129,17 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+            Changelog:
+            ${{ steps.generate_changelog.outputs.changelog }}
           draft: false
           prerelease: false
+
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./gomacdeploy
+      #     asset_name: gomacdeploy
+      #     asset_content_type: application/octet-stream
