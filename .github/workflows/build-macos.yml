@@ -34,8 +34,8 @@ jobs:
       - name: Build
         run: go build -o gomacdeploy -v ./...
 
-      - name: Copy config.yaml
-        run: cp config.yaml ./gomacdeploy
+      - name: Copy deploy_config.yaml
+        run: cp deploy_config.yaml ./gomacdeploy
 
       - name: Create Release
         id: create_release
