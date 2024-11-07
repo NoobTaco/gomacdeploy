@@ -22,9 +22,9 @@ builds:
       # - linux
       # - windows
       - darwin
-    extra_files:
-      - src: ./deploy_config.yaml
-        dst: ./deploy_config.yaml
+    # extra_files:
+    #   - src: ./deploy_config.yaml
+    #     dst: ./deploy_config.yaml
 
 archives:
   - format: tar.gz
