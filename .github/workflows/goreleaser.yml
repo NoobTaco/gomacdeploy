@@ -26,6 +26,8 @@ jobs:
       #   uses: janheinrichmerker/action-github-changelog-generator@v2.3
       #   with:
       #     token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Copy config.yaml
+        run: cp config.yaml ./gomacdeploy
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
@@ -34,19 +36,6 @@ jobs:
           # 'latest', 'nightly', or a semver
           version: '~> v2'
           args: release --clean
-        builds:
-          - main: ./cmd/main.go
-            goos: darwin
-            goarch:
-              - amd64
-              - arm64
-            ldflags: -s -w
-            env:
-              - CGO_ENABLED=0
-            extra_files:
-              - src: ./config.yaml
-                dest: config.yaml
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro' distribution
