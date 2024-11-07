@@ -34,7 +34,7 @@
 // - Cleans up Homebrew installations
 // - Reboots the system
 //
-// Version: v0.1.4
+// Version: v0.1.5
 //
 // This project was inspired by https://github.com/donnybrilliant/install.sh
 //
