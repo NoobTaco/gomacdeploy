@@ -67,8 +67,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./config.yaml
-          asset_name: config.yaml
+          asset_path: ./deploy_config.yaml
+          asset_name: deploy_config.yaml
           asset_content_type: text/yaml
 
       - name: Upload Changelog
