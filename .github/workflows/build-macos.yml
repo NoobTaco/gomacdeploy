@@ -34,8 +34,8 @@ jobs:
       - name: Build
         run: go build -o gomacdeploy -v ./...
 
-      - name: Copy deploy_config.yaml
-        run: cp deploy_config.yaml ./gomacdeploy
+      - name: Copy deploy_config.yml
+        run: cp deploy_config.yml ./gomacdeploy
 
       - name: Create Release
         id: create_release
@@ -67,8 +67,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./deploy_config.yaml
-          asset_name: deploy_config.yaml
+          asset_path: ./deploy_config.yml
+          asset_name: deploy_config.yml
           asset_content_type: text/yaml
 
       - name: Upload Changelog
