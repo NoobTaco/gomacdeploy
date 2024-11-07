@@ -22,12 +22,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: 1.23.2
-      # - name: '✏️ Generate release changelog'
-      #   uses: janheinrichmerker/action-github-changelog-generator@v2.3
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Copy config.yaml
-        run: cp config.yaml ./gomacdeploy
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:

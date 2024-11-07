@@ -12,7 +12,7 @@
 //	optional package installations and system
 //	cleanup tasks.
 //
-// The application reads a configuration file (config.yaml) to determine
+// The application reads a configuration file (deploy_config.yml) to determine
 // which packages and settings to install and configure. It performs the
 // following tasks:
 // - Clears the terminal screen
@@ -67,7 +67,7 @@ type Config struct {
 }
 
 func main() {
-	config, err := readConfig("config.yaml")
+	config, err := readConfig("deploy_config.yml")
 	if err != nil {
 		fmt.Printf("Error reading config: %v\n", err)
 		os.Exit(1)
