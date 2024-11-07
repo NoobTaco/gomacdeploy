@@ -94,6 +94,7 @@ dockReplace:
   # - /Applications/Google Chrome.app|Safari
 
 dockAdd:
+  - /Applications/Warp.app
   - /Applications/WezTerm.app
   - /Applications/Arc.app
   - /Applications/Visual Studio Code.app
