@@ -81,66 +81,95 @@
 #           asset_name: CHANGELOG.md
 #           asset_content_type: text/markdown
 
+# on:
+#   push:
+#     # Sequence of patterns matched against refs/tags
+#     tags:
+#       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+# name: Create Release
+
+# jobs:
+#   build:
+#     name: Create Release
+#     # runs-on: ubuntu-latest
+#     runs-on: macos-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Go
+#         uses: actions/setup-go@v4
+#         with:
+#           go-version: '1.21.1'
+
+#       - name: Install Ruby
+#         run: brew install ruby
+
+#       - name: Install github-changelog-generator
+#         run: gem install github_changelog_generator
+
+#       - name: Generate changelog
+#         id: generate_changelog
+#         env:
+#           CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         run: github_changelog_generator -u NoobTaco -p gomacdeploy
+
+#       - name: Build
+#         run: go build -o gomacdeploy -v ./...
+
+#       - name: Copy deploy_config.yml
+#         run: cp deploy_config.yml ./gomacdeploy
+
+#       - name: Create Release
+#         id: create_release
+#         uses: actions/create-release@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+#         with:
+#           tag_name: ${{ github.ref }}
+#           release_name: Release ${{ github.ref }}
+#           body: |
+#             Changelog:
+#             ${{ steps.generate_changelog.outputs.changelog }}
+#           draft: false
+#           prerelease: false
+
+# - name: Upload Release Asset
+#   uses: actions/upload-release-asset@v1
+#   env:
+#     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#   with:
+#     upload_url: ${{ steps.create_release.outputs.upload_url }}
+#     asset_path: ./gomacdeploy
+#     asset_name: gomacdeploy
+#     asset_content_type: application/octet-stream
+
+# .github/workflows/release.yaml
+
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*'
+    branches:
+      - main
 
-name: Create Release
+permissions:
+  contents: write
+  packages: write
 
 jobs:
-  build:
-    name: Create Release
-    # runs-on: ubuntu-latest
-    runs-on: macos-latest
+  release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - uses: actions/checkout@v4
+      - uses: wangyoucao577/go-release-action@v1
         with:
-          go-version: '1.21.1'
-
-      - name: Install Ruby
-        run: brew install ruby
-
-      - name: Install github-changelog-generator
-        run: gem install github_changelog_generator
-
-      - name: Generate changelog
-        id: generate_changelog
-        env:
-          CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: github_changelog_generator -u NoobTaco -p gomacdeploy
-
-      - name: Build
-        run: go build -o gomacdeploy -v ./...
-
-      - name: Copy deploy_config.yml
-        run: cp deploy_config.yml ./gomacdeploy
-
-      - name: Create Release
-        # id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          # body: |
-          #   Changelog:
-          #   ${{ steps.generate_changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
-
-      # - name: Upload Release Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./gomacdeploy
-      #     asset_name: gomacdeploy
-      #     asset_content_type: application/octet-stream
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: darwin
+          goarch: arm64
+          goversion: 1.23.2
+          extra_files: |
+            deploy_config.yml
+            CHANGELOG.md
