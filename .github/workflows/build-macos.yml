@@ -110,6 +110,7 @@ jobs:
         run: gem install github_changelog_generator
 
       - name: Generate changelog
+        id: generate_changelog
         env:
           CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: github_changelog_generator -u NoobTaco -p gomacdeploy
