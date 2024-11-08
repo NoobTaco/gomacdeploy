@@ -129,9 +129,9 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: |
-            Changelog:
-            ${{ steps.generate_changelog.outputs.changelog }}
+          # body: |
+          #   Changelog:
+          #   ${{ steps.generate_changelog.outputs.changelog }}
           draft: false
           prerelease: false
 
